@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Assignment 1</title>
+<style>
+  #paraId{
+    color:white;
+    text-align:center;
+    font-size:20px;
+    width:813px;
+    height:80px;
+    margin-left:218px;
+    padding-bottom:20px;
+    background-color: #4CAF50;
+  }
+  #form{
+    padding:20px;
+    background: white;
+    border-collapse: collapse;
+  }
+  body{
+    background: #f4f7f8;
+  }
+  table{
+    margin-left: 100px;
+  }
+  .student{
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%
+  }
+  td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: white;
+  }
+  th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+  }
+  #displayId{
+    padding:20px 20px 20px 20px;
+  }
+
+</style>
+</head>
+<body>
+    <div id="paraId"><br>Student Form</div>
+    <div class="row">
+      <div class="col-2"></div>
+      <div id="form" class="col-7">
+        <label class="col-2 ">First name:</label><input class="col-3" id="fnameId">
+        <label class="col-2">Last name:</label> <input class="col-4" id="lnameId">
+        <hr> <p class="m-3"> Address</p><hr>
+        <label class="col-2 ">Line1:</label> <input class="col-4" id="addressline1Id">
+        <label class="col-2 ">Line2:</label> <input class="col-3" id="addressline2Id">
+        <label class="col-2 ">Line3:</label> <input class="col-4" id="addressline3Id">
+        <label class="col-2 ">Pincode:</label> <input class="col-3" id="pincodeId">
+        <hr> <p class="m-3"> Contact</p><hr>
+        <label class="col-2 ">Mobile:</label> <input class="col-2" id="mobileId">
+        <label class="col-2 ">Email:</label> <input class="col-4" id="emailId">
+        <hr>
+        <div class="row">
+          <div class="col-4"></div>
+          <button class="btn btn-success  m-3 col-1" id="saveId" onclick="saveStudent()">Save</button>
+          <button class="btn btn-success m-3 col-1"  id="updateId" onclick="update()">Update</button>
+          <button class="btn btn-success  m-3 col-1" id="clearId" onclick="clearStudent()">Clear</button>
+          <div class="col-4"></div>
+        </div> 
+      </div>
+      <div class="col-3"></div>
+    </div>
+    <div>
+    <p id="displayId"> </p>
+    </div>
+  <script>
+    var studentArray=[];
+    var indexGlobal;
+    document.getElementById( "updateId").style.visibility="hidden";
+    function getStudent(){
+       var student={
+	  fName:"",
+	  lName:"",
+	  addressLine1:"",
+	  addressLine2:"",
+	  addressLine3:"",
+	  pinode:0,
+	  mobileNumber:0,
+	  email:"",
+	  }
+      return student;
+     }
+    function saveStudent(){
+       var student=getStudent();
+       student.fName=document.getElementById("fnameId").value;
+       student.lName=document.getElementById("lnameId").value;
+       student.addressLine1=document.getElementById("addressline1Id").value;
+       student.addressLine2=document.getElementById("addressline2Id").value;
+       student.addressLine3=document.getElementById("addressline3Id").value;
+       student.pinode=document.getElementById("pincodeId").value;
+       student.mobileNumber=document.getElementById("mobileId").value;
+       student.email=document.getElementById("emailId").value;
+       studentArray.push(student);
+       displayStudents();
+       clearStudent();
+    }
+    function clearStudent(){
+       document.getElementById( "updateId").style.visibility="hidden";
+       document.getElementById("fnameId").value="";
+       document.getElementById("lnameId").value="";
+       document.getElementById("addressline1Id").value="";
+       document.getElementById("addressline2Id").value="";
+       document.getElementById("addressline3Id").value="";
+       document.getElementById("pincodeId").value="";
+       document.getElementById("mobileId").value="";
+       document.getElementById("emailId").value="";
+    }
+    function displayStudents(){ 
+       var text="";
+       var tableStart="<table><tr><th>First name</th><th>Last name</th><th>Address line1</th><th>Address line2</th><th>Address line3</th><th>Pincode</th><th>Mobile number</th><th>Email</th><th>Action</th></tr>";
+       var tableEnd="</table>";
+       for(index=0;index < studentArray.length;index++){
+          text+="<tr><td>"+ studentArray[index].fName +"</td><td>"+ studentArray[index].lName +"</td><td>"+ studentArray[index].addressLine1 +"</td><td>"+ studentArray[index].addressLine2 +"</td><td>"+ studentArray[index].addressLine3 +"</td><td>"+ studentArray[index].pinode +"</td><td>"+ studentArray[index].mobileNumber +"</td><td>"+ studentArray[index].email +"</td><td><button onclick='updateStudent(\""+index+"\")'>Update</button><button onclick='deleteStudent(\""+index+"\")'>Delete</button></td></tr>";
+         }
+       document.getElementById("displayId").innerHTML= tableStart+text+tableEnd;
+    }
+    function updateStudent(index){
+       indexGlobal=index;
+       document.getElementById("displayId").innerHTML=" ";
+       document.getElementById( "updateId").style.visibility="visible";
+       document.getElementById("saveId").style.visibility="hidden"; 
+       document.getElementById("fnameId").value=studentArray[index].fName;
+       document.getElementById("lnameId").value=studentArray[index].lName;
+       document.getElementById("addressline1Id").value=studentArray[index].addressLine1;
+       document.getElementById("addressline2Id").value=studentArray[index].addressLine2;
+       document.getElementById("addressline3Id").value=studentArray[index].addressLine3;
+       document.getElementById("pincodeId").value=studentArray[index].pinode
+       document.getElementById("mobileId").value=studentArray[index].mobileNumber;
+       document.getElementById("emailId").value=studentArray[index].email;
+    }
+    function update(){
+       var student=getStudent();
+       student.fName=document.getElementById("fnameId").value;
+       student.lName=document.getElementById("lnameId").value;
+       student.addressLine1=document.getElementById("addressline1Id").value;
+       student.addressLine2=document.getElementById("addressline2Id").value;
+       student.addressLine3=document.getElementById("addressline3Id").value;
+       student.pinode=document.getElementById("pincodeId").value;
+       student.mobileNumber=document.getElementById("mobileId").value;
+       student.email=document.getElementById("emailId").value;
+       studentArray.splice(indexGlobal,1,student);
+       document.getElementById("saveId").style.visibility="visible";
+       displayStudents();
+       clearStudent();
+    }
+    function deleteStudent(index){
+       studentArray.splice(index,1);
+       if(studentArray.length==0)
+         document.getElementById("displayId").innerHTML="";
+       else
+         displayStudents();
+    }
+  </script>
+</body>
+</html>
